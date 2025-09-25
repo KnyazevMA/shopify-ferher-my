@@ -1,0 +1,120 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_t8kc6X": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_RdTWY3": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/IMG_0511.MOV",
+            "image_overlay_opacity": 0,
+            "heading": "More than just shoes — it’s a part of your story.",
+            "heading_size": "h0",
+            "subheading": "Original sneakers from Nike and other top brands that make every step feel special.",
+            "button_label": "Shop the Collection",
+            "link": "shopify://collections/summer-collection-under-100",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "text_alignment_mobile": "left",
+            "color_scheme": "scheme-3"
+          }
+        },
+        "slide_JAr7rb": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/IMG_0510.MOV",
+            "image_overlay_opacity": 0,
+            "heading": "More than just shoes — it’s a part of your story.",
+            "heading_size": "h0",
+            "subheading": "Original sneakers from Nike and other top brands that make every step feel special.",
+            "button_label": "Shop the Collection",
+            "link": "shopify://collections/summer-collection-under-100",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "text_alignment_mobile": "left",
+            "color_scheme": "scheme-3"
+          }
+        },
+        "slide_CWYdr3": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/IMG_0512.MOV",
+            "image_overlay_opacity": 10,
+            "heading": "More than just shoes — it’s a part of your story.",
+            "heading_size": "h0",
+            "subheading": "Original sneakers from Nike and other top brands that make every step feel special.",
+            "button_label": "Shop the Collection",
+            "link": "shopify://collections/summer-collection-under-100",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "text_alignment_mobile": "left",
+            "color_scheme": "scheme-3"
+          }
+        }
+      },
+      "block_order": [
+        "slide_RdTWY3",
+        "slide_JAr7rb",
+        "slide_CWYdr3"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "large",
+        "slider_visual": "pills",
+        "auto_rotate": false,
+        "change_slides_speed": 9,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "all",
+        "products_to_show": 8,
+        "title": "Featured products",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "slideshow_t8kc6X",
+    "featured_collection"
+  ]
+}
