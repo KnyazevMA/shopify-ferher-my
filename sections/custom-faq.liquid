@@ -1,0 +1,103 @@
+{{ 'custom-faq.css' | asset_url | stylesheet_tag }}
+
+<faq-component class="faq" id="faq-{{ section.id }}">
+  <div class="faq__wrapper faq__wrapper--{{ section.settings.content_alignment }} color-{{ section.settings.color_scheme }} spacing--{{ section.settings.padding_size }}">
+    {% if section.settings.heading != blank %}
+      <h2 class="faq__title">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p class="faq__description">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    <ul class="dropdown-list">
+      {% for block in section.blocks %}
+        <li class="dropdown-list__item">
+          <h3 class="dropdown-list__title">
+            <button class="dropdown-list__btn" type="button" aria-label="Toggle answer">
+              <span class="dropdown-list__text">{{ block.settings.question }}</span>
+              <span class="dropdown-list__icon"></span>
+            </button>
+          </h3>
+          <p class="dropdown-list__content">
+            {{ block.settings.answer }}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</faq-component>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Title",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Description",
+      "default": "Answers to frequently asked questions ."
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Aligning content",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "padding_size",
+      "label": "Section indents",
+      "options": [
+        { "value": "none", "label": "Without indents" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Average" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Your question here"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Your answer here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
