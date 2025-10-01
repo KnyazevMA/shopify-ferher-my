@@ -1,0 +1,113 @@
+{% assign product = all_products[section.settings.product] %}
+{{ 'custom-product-detail.css' | asset_url | stylesheet_tag }}
+
+<script type="application/json" id="product-variants">
+  {{ product.variants | json }}
+</script>
+
+{% if product %}
+  <section class="product-detail">
+    <div class="container">
+      <div class="product-detail__wrapper">
+        <div class="product-detail__inner-left">
+          <div class="product-detail__wrapper-big-img">
+            {% if product.featured_image %}
+              {{ product.featured_image | image_url: width: 600 | image_tag: alt: product.title }}
+            {% else %}
+              <div class="product-detail__placeholder">No image</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="product-detail__inner-right">
+          <h2 class="product-detail__title">{{ product.title }}</h2>
+          <p class="product-detail__price">
+            {% if product.compare_at_price > product.price %}
+              <span class="product-detail__price--sale">{{ product.price | money }}</span>
+              <span class="product-detail__price--old">{{ product.compare_at_price | money }}</span>
+            {% else %}
+              <span>{{ product.price | money }}</span>
+            {% endif %}
+          </p>
+          {% for option in product.options %}
+            {% assign option_color = option | downcase %}
+            {% if option_color == 'color' %}
+              {% assign color_index = forloop.index0 %}
+            {% endif %}
+          {% endfor %}
+          {% if color_index != blank %}
+            <fieldset class="product-detail__option-color">
+              {% for variant in product.variants limit: 3 %}
+                {% assign color_name = variant.options[color_index] | downcase | replace: ' ', '-' %}
+                <label class="custom-radio">
+                  <input
+                    type="radio"
+                    name="color"
+                    value="{{ color_name }}"
+                    {% if forloop.first %}
+                      checked
+                    {% endif %}
+                  >
+                  <span class="custom-radio__visual custom-radio__visual--color color-{{ color_name }}"></span>
+                </label>
+              {% endfor %}
+            </fieldset>
+          {% endif %}
+          <span class="product-detail__availability" id="variant-availability"> </span>
+          {%- assign size_index = blank -%}
+          {%- for option in product.options -%}
+            {% assign option_size = option | downcase %}
+            {% if option_size == 'size' %}
+              {% assign size_index = forloop.index0 %}
+            {% endif %}
+          {%- endfor -%}
+          {% if size_index != blank %}
+            <fieldset class="product-detail__option-size">
+              <legend class="product-detail__legend">Choose size:</legend>
+              <div class="product-detail__size-label-inner">
+                {%- assign sizes = '' -%}
+                {%- for variant in product.variants -%}
+                  {% assign size_value = variant.options[size_index] %}
+                  {% unless sizes contains size_value %}
+                    <label class="custom-radio">
+                      <input
+                        type="radio"
+                        name="size"
+                        value="{{ size_value }}"
+                      >
+                      <span class="custom-radio__visual">{{ size_value }}</span>
+                    </label>
+                    {% assign sizes = sizes | append: size_value | append: ',' %}
+                  {% endunless %}
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {% endif %}
+          <button class="product-detail__btn" type="submit">
+            {{ 'products.product.add_to_cart' | t: default: 'Add to cart' }}
+          </button>
+          <p class="product-detail__description">
+            {{ product.description | strip_html | truncate: 200 }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product Detail",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Выберите продукт"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Detail"
+    }
+  ]
+}
+{% endschema %}

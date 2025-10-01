@@ -1363,3 +1363,63 @@ class CartPerformance {
     );
   }
 }
+
+class ProductDetail {
+  constructor(section) {
+    this.section = section;
+
+    this.colorInputs = this.section.querySelectorAll('input[name="color"]');
+    this.sizeInputs = this.section.querySelectorAll('input[name="size"]');
+    this.availabilityEl = this.section.querySelector('#variant-availability');
+    this.addToCartBtn = this.section.querySelector('.product-detail__btn');
+
+    // парсим варианты
+    const variantsEl = document.getElementById('product-variants');
+    this.variants = variantsEl ? JSON.parse(variantsEl.textContent) : [];
+
+    this.init();
+  }
+
+  updateVariant() {
+    const selectedColor = this.section.querySelector('input[name="color"]:checked');
+    const selectedSize = this.section.querySelector('input[name="size"]:checked');
+
+    // Собираю массив выбранных опций
+    const selectedOptions = [];
+    if (selectedSize) selectedOptions.push(selectedSize.value);
+    if (selectedColor) selectedOptions.push(selectedColor.value);
+
+    // Ищу совпадения, заранее свел массивы к одному виду
+    const match = this.variants.find(v => {
+      const variantOptions = v.options.map(o => o.toLowerCase());
+      const selected = selectedOptions.map(o => o.toLowerCase());
+
+      return JSON.stringify(variantOptions) === JSON.stringify(selected);
+    });
+
+
+    if (match) {
+      if (match.available) {
+        this.availabilityEl.textContent = `In stock`;
+      } else {
+        this.availabilityEl.textContent = 'Sold out';
+      }
+    }
+  }
+
+  init() {
+    this.colorInputs.forEach(input => {
+      input.addEventListener('change', () => this.updateVariant());
+    });
+    this.sizeInputs.forEach(input => {
+      input.addEventListener('change', () => this.updateVariant());
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const section = document.querySelector('.product-detail');
+  if (section) {
+    new ProductDetail(section);
+  }
+});

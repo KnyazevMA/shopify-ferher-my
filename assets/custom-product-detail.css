@@ -1,0 +1,150 @@
+.product-detail__wrapper {
+    display: grid;
+    grid-template-columns: 648px auto;
+    gap: 60px;
+}
+
+.product-detail__inner-left {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 24px;
+    max-height: 536px;
+}
+
+.product-detail__wrapper-big-img {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    height: auto;
+}
+
+.product-detail__wrapper-big-img img {
+    height: 100%;
+}
+
+.product-detail__image--big {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: auto;
+}
+
+.product-detail__title {
+    margin: 0 0 12px 0;
+}
+
+.product-detail__price {
+    display: block;
+    margin: 0 0 16px 0;
+    color: #777777;
+}
+
+.product-detail__option-color,
+.product-detail__option-size {
+    display: flex;
+    gap: 8px;
+    border: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+}
+
+.product-detail__legend {
+    margin: 0 0 12px 0;
+}
+
+.product-detail__size-label-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.product-detail__btn {
+    margin: 0 0 32px 0;
+    position: relative;
+}
+
+.product-detail__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.product-detail__btn:disabled::after {
+    content: "Please select a size";
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000000;
+    color: #ffffff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.product-detail__btn:disabled:hover::after {
+    opacity: 1;
+}
+
+.product-detail__description {
+    margin: 0;
+    color: #777777;
+}
+
+.custom-radio {
+    cursor: pointer;
+}
+
+.custom-radio:focus-visible .custom-radio__visual,
+.custom-radio:hover .custom-radio__visual {
+    outline: none;
+    border: 1px solid #777777;
+}
+
+.custom-radio__visual {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.custom-radio__visual--img {
+    padding: 0;
+    width: 88px;
+    height: 88px;
+    border: 1px solid #000000;
+    border-color: transparent;
+}
+
+.custom-radio__field:checked+.custom-radio__visual {
+    border-color: #000000;
+}
+
+input[type="radio" i] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Пока так временно, позже планирую нормально переделать */
+
+.сolor-white { background-color: #ffffff; }
+.color-black { background-color: #000000; }
+.color-gray  { background-color: #777777; }
+.color-light-gray { background-color: #cccccc; }
+.color-red   { background-color: #ff0000; }
+.color-blue  { background-color: #3366ff; }
+.color-green { background-color: #28a745; }
+.color-yellow { background-color: #ffcc00; }
+.color-orange { background-color: #ff6600; }
+.color-purple { background-color: #800080; }
