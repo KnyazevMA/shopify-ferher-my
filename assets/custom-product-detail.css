@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 648px auto;
     gap: 60px;
+    padding: 20px;
 }
 
 .product-detail__inner-left {
@@ -16,6 +17,7 @@
     aspect-ratio: 1 / 1;
     max-width: 100%;
     height: auto;
+    max-height: 536px;
 }
 
 .product-detail__wrapper-big-img img {
@@ -91,6 +93,25 @@
     opacity: 1;
 }
 
+.product-detail__btn {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.product-detail__btn:hover {
+    background-color: #737373;
+    cursor: pointer;
+}
+
+.product-detail__btn:disabled {
+    background-color: #CACACB;
+    cursor: auto;
+}
+
 .product-detail__description {
     margin: 0;
     color: #777777;
@@ -98,12 +119,6 @@
 
 .custom-radio {
     cursor: pointer;
-}
-
-.custom-radio:focus-visible .custom-radio__visual,
-.custom-radio:hover .custom-radio__visual {
-    outline: none;
-    border: 1px solid #777777;
 }
 
 .custom-radio__visual {
@@ -116,16 +131,34 @@
     padding: 16px;
 }
 
+.custom-radio__field:focus-visible+.custom-radio__visual,
+.custom-radio__field:hover+.custom-radio__visual,
+.custom-radio__field:checked+.custom-radio__visual {
+    border-color: #000000;
+}
+
+.custom-radio__visual--color {
+    border-radius: 50%;
+    border: 2px solid #000000;
+}
+
+.custom-radio__field:focus-visible+.custom-radio__visual--color,
+.custom-radio__field:hover+.custom-radio__visual--color {
+    border-color: #777777;
+    opacity: 0.9;
+}
+
+.custom-radio__field:checked+.custom-radio__visual--color {
+    border-color: #777777;
+    opacity: 0.8;
+}
+
 .custom-radio__visual--img {
     padding: 0;
     width: 88px;
     height: 88px;
     border: 1px solid #000000;
     border-color: transparent;
-}
-
-.custom-radio__field:checked+.custom-radio__visual {
-    border-color: #000000;
 }
 
 input[type="radio" i] {
@@ -135,16 +168,3 @@ input[type="radio" i] {
     height: 0;
     pointer-events: none;
 }
-
-/* Пока так временно, позже планирую нормально переделать */
-
-.сolor-white { background-color: #ffffff; }
-.color-black { background-color: #000000; }
-.color-gray  { background-color: #777777; }
-.color-light-gray { background-color: #cccccc; }
-.color-red   { background-color: #ff0000; }
-.color-blue  { background-color: #3366ff; }
-.color-green { background-color: #28a745; }
-.color-yellow { background-color: #ffcc00; }
-.color-orange { background-color: #ff6600; }
-.color-purple { background-color: #800080; }

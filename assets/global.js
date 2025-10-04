@@ -1367,15 +1367,17 @@ class CartPerformance {
 class ProductDetail {
   constructor(section) {
     this.section = section;
-
     this.colorInputs = this.section.querySelectorAll('input[name="color"]');
     this.sizeInputs = this.section.querySelectorAll('input[name="size"]');
     this.availabilityEl = this.section.querySelector('#variant-availability');
     this.addToCartBtn = this.section.querySelector('.product-detail__btn');
+    this.mainImageEl = this.section.querySelector('.product-detail__wrapper-big-img img');
 
-    // парсим варианты
-    const variantsEl = document.getElementById('product-variants');
-    this.variants = variantsEl ? JSON.parse(variantsEl.textContent) : [];
+    const productId = this.section.dataset.productId;
+
+    // парсинг JSON с вариантами и остатками
+    const inventoryDataEl = document.getElementById(`VariantInventory-${productId}`);
+    this.variants = inventoryDataEl ? JSON.parse(inventoryDataEl.textContent) : {};
 
     this.init();
   }
@@ -1384,42 +1386,79 @@ class ProductDetail {
     const selectedColor = this.section.querySelector('input[name="color"]:checked');
     const selectedSize = this.section.querySelector('input[name="size"]:checked');
 
-    // Собираю массив выбранных опций
-    const selectedOptions = [];
-    if (selectedSize) selectedOptions.push(selectedSize.value);
-    if (selectedColor) selectedOptions.push(selectedColor.value);
+    if (!selectedColor || !selectedSize) return;
 
-    // Ищу совпадения, заранее свел массивы к одному виду
-    const match = this.variants.find(v => {
+    // Сбор массива выбранных опций
+    const selectedOptions = [selectedSize.value, selectedColor.value].map(o => o.toLowerCase());
+
+    // Поиск вариантов у которых options совпадают с выбранными
+    const match = Object.values(this.variants).find(v => {
+      if (!v.options) return false;
       const variantOptions = v.options.map(o => o.toLowerCase());
-      const selected = selectedOptions.map(o => o.toLowerCase());
-
-      return JSON.stringify(variantOptions) === JSON.stringify(selected);
+      return selectedOptions.every(opt => variantOptions.includes(opt));
     });
 
-
     if (match) {
-      if (match.available) {
-        this.availabilityEl.textContent = `In stock`;
+      const quantity = match.inventory_quantity ?? 0;
+
+      if (match.available && quantity > 0) {
+        this.availabilityEl.textContent = `In stock: ${quantity}`;
+        this.addToCartBtn.disabled = false;
       } else {
         this.availabilityEl.textContent = 'Sold out';
+        this.addToCartBtn.disabled = true;
+      }
+    } else {
+      this.availabilityEl.textContent = 'Variant not found';
+      this.addToCartBtn.disabled = true;
+    }
+  }
+
+  updateMainImage(colorValue) {
+    // Поиск цвета
+    const match = Object.values(this.variants).find(v => {
+      if (!v.options) return false;
+      return v.options.some(o => o.toLowerCase() === colorValue.toLowerCase());
+    });
+
+    // Замена картинки
+      const imageUrl = match.featured_image.startsWith('//')
+        ? `https:${match.featured_image}`
+        : match.featured_image;
+
+      if (this.mainImageEl) {
+        this.mainImageEl.src = imageUrl;
+        this.mainImageEl.srcset = ''; // сброс srcset
+        this.mainImageEl.alt = match.name || 'Product image';
       }
     }
   }
 
   init() {
+    // Слушатели для радио кнопок, изменения состояний по клику
+    [...this.colorInputs, ...this.sizeInputs].forEach(input => {
+      input.addEventListener('change', () => this.updateVariant());
+    });
+
     this.colorInputs.forEach(input => {
-      input.addEventListener('change', () => this.updateVariant());
+      input.addEventListener('change', (e) => {
+        const colorValue = e.target.value;
+        this.updateMainImage(colorValue);
+      });
     });
-    this.sizeInputs.forEach(input => {
-      input.addEventListener('change', () => this.updateVariant());
-    });
+
+
+    // Первый рендер страницы
+    const defaultColorInput = this.section.querySelector('input[name="color"]:checked');
+    if (defaultColorInput) {
+      this.updateMainImage(defaultColorInput.value);
+    }
+
+    this.updateVariant();
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const section = document.querySelector('.product-detail');
-  if (section) {
-    new ProductDetail(section);
-  }
+  if (section) new ProductDetail(section);
 });
