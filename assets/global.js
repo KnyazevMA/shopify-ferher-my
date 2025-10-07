@@ -1373,88 +1373,107 @@ class ProductDetail {
     this.addToCartBtn = this.section.querySelector('.product-detail__btn');
     this.mainImageEl = this.section.querySelector('.product-detail__wrapper-big-img img');
 
-    const productId = this.section.dataset.productId;
-
-    // парсинг JSON с вариантами и остатками
-    const inventoryDataEl = document.getElementById(`VariantInventory-${productId}`);
-    this.variants = inventoryDataEl ? JSON.parse(inventoryDataEl.textContent) : {};
+    const productId = section.dataset.productId;
+    this.variantsData = JSON.parse(document.querySelector(`#ProductVariants-${productId}`).textContent);
+    const translationsEl = document.querySelector('#Translations');
+    this.translations = translationsEl ? JSON.parse(translationsEl.textContent) : {};
 
     this.init();
   }
 
-  updateVariant() {
-    const selectedColor = this.section.querySelector('input[name="color"]:checked');
-    const selectedSize = this.section.querySelector('input[name="size"]:checked');
+  init() {
+    this.bindEvents();
+    this.renderDefaultState();
+    this.bindThumbnailClicks();
+  }
 
-    if (!selectedColor || !selectedSize) return;
-
-    // Сбор массива выбранных опций
-    const selectedOptions = [selectedSize.value, selectedColor.value].map(o => o.toLowerCase());
-
-    // Поиск вариантов у которых options совпадают с выбранными
-    const match = Object.values(this.variants).find(v => {
-      if (!v.options) return false;
-      const variantOptions = v.options.map(o => o.toLowerCase());
-      return selectedOptions.every(opt => variantOptions.includes(opt));
+  bindEvents() {
+    this.colorInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        const color = input.value.toLowerCase();
+        this.toggleThumbnailGroups(color);
+        this.updateMainImage(color);
+        this.updateVariant();
+      });
     });
+    this.sizeInputs.forEach(input => {
+      input.addEventListener('change', () => this.updateVariant());
+    });
+  }
 
-    if (match) {
-      const quantity = match.inventory_quantity ?? 0;
-
-      if (match.available && quantity > 0) {
-        this.availabilityEl.textContent = `In stock: ${quantity}`;
-        this.addToCartBtn.disabled = false;
-      } else {
-        this.availabilityEl.textContent = 'Sold out';
-        this.addToCartBtn.disabled = true;
-      }
-    } else {
-      this.availabilityEl.textContent = 'Variant not found';
-      this.addToCartBtn.disabled = true;
+  renderDefaultState() {
+    const defaultColor = this.section.querySelector('input[name="color"]:checked');
+    if (defaultColor) {
+      const color = defaultColor.value.toLowerCase();
+      this.toggleThumbnailGroups(color);
+      this.updateMainImage(color);
     }
+    this.updateVariant();
+  }
+
+  updateVariant() {
+    const color = this.section.querySelector('input[name="color"]:checked')?.value;
+    const size = this.section.querySelector('input[name="size"]:checked')?.value;
+
+    const variantEl = Object.values(this.variantsData).find(v =>
+      v.option1?.toLowerCase() === color?.toLowerCase() &&
+      v.option2?.toLowerCase() === size?.toLowerCase()
+    );
+
+    if (!variantEl) return this.setSoldOut();
+
+    const quantity = Number(variantEl.inventory_quantity);
+    const available = Boolean(variantEl.available);
+    if (available && quantity > 0) {
+      this.setAvailable(quantity);
+    } else {
+      this.setSoldOut();
+    }
+  }
+
+  setAvailable(quantity) {
+    const textTemplate = this.translations.in_stock || 'In stock: ';
+    this.availabilityEl.textContent = `${textTemplate} ${quantity}`;
+    this.addToCartBtn.disabled = false;
+  }
+
+  setSoldOut() {
+    const soldOutText = this.translations.sold_out || 'Sold out';
+    this.availabilityEl.textContent = soldOutText;
+    this.addToCartBtn.disabled = true;
   }
 
   updateMainImage(colorValue) {
-    // Поиск цвета
-    const match = Object.values(this.variants).find(v => {
-      if (!v.options) return false;
-      return v.options.some(o => o.toLowerCase() === colorValue.toLowerCase());
-    });
+    const variantEl = this.section.querySelector(`input[name = "color"][value = "${colorValue}"]`);
+    if (!variantEl) return;
 
-    // Замена картинки
-      const imageUrl = match.featured_image.startsWith('//')
-        ? `https:${match.featured_image}`
-        : match.featured_image;
+    const imageUrl = variantEl.dataset.image;
 
-      if (this.mainImageEl) {
-        this.mainImageEl.src = imageUrl;
-        this.mainImageEl.srcset = ''; // сброс srcset
-        this.mainImageEl.alt = match.name || 'Product image';
-      }
-    }
+    this.mainImageEl.src = imageUrl.startsWith('//') ? `https:${imageUrl} ` : imageUrl;
+    this.mainImageEl.srcset = ''; // сброс srcset
   }
 
-  init() {
-    // Слушатели для радио кнопок, изменения состояний по клику
-    [...this.colorInputs, ...this.sizeInputs].forEach(input => {
-      input.addEventListener('change', () => this.updateVariant());
-    });
+  bindThumbnailClicks() {
+    const buttons = this.section.querySelectorAll('.product-detail__btn-img');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const large = btn.dataset.large;
+        if (large) this.mainImageEl.src = large;
 
-    this.colorInputs.forEach(input => {
-      input.addEventListener('change', (e) => {
-        const colorValue = e.target.value;
-        this.updateMainImage(colorValue);
+        btn.closest('.product-detail__thumb-group')
+          .querySelectorAll('.product-detail__btn-img')
+          .forEach(b => b.classList.remove('product-detail__btn-img--active'));
+
+        btn.classList.add('product-detail__btn-img--active');
       });
     });
+  }
 
-
-    // Первый рендер страницы
-    const defaultColorInput = this.section.querySelector('input[name="color"]:checked');
-    if (defaultColorInput) {
-      this.updateMainImage(defaultColorInput.value);
-    }
-
-    this.updateVariant();
+  toggleThumbnailGroups(color) {
+    const thumbGroups = this.section.querySelectorAll('.product-detail__thumb-group');
+    thumbGroups.forEach(group => {
+      group.style.display = group.dataset.color === color ? '' : 'none';
+    });
   }
 }
 
