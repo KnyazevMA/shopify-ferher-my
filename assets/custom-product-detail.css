@@ -1,17 +1,17 @@
-.product-detail__wrapper {
+/* .product-detail__wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-}
+} */
 
-.product-detail__inner-left {
+/* .product-detail__inner-left {
     display: flex;
     flex-direction: row-reverse;
     gap: 24px;
     max-height: 536px;
-}
+} */
 
-.product-detail__wrapper-big-img {
+/* .product-detail__wrapper-big-img {
     position: relative;
     aspect-ratio: 1 / 1;
     max-width: 100%;
@@ -19,23 +19,22 @@
     max-height: 536px;
     border-radius: 8px;
     overflow: hidden;
+} */
 
-}
-
-.product-detail__wrapper-big-img img {
+/* .product-detail__wrapper-big-img img {
     height: 100%;
     width: 100%;
     object-fit: cover;
-}
+} */
 
-.product-detail__thumb-group {
+/* .product-detail__thumb-group {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 24px;
-}
+} */
 
-.product-detail__btn-img {
+/* .product-detail__btn-img {
     padding: 0;
     width: 88px;
     height: 88px;
@@ -46,15 +45,17 @@
     overflow: hidden;
     position: relative;
     flex: 0 0 auto;
-}
+} */
 
-.product-detail__btn-img:focus-visible,
+/* .product-detail__btn-img:focus-visible,
 .product-detail__btn-img:hover {
     outline: none;
     border: 1px solid gray;
-}
+} */
 
-.product-detail__btn-img::after {
+
+/**? Повернутись до цього, не працює чомусь оверлей при active **/
+/* .product-detail__btn-img::after {
     display: block;
     content: "";
     width: 100%;
@@ -73,49 +74,49 @@
 
 .product-detail__btn-img--active::after {
     opacity: 0.2;
-}
+} */
 
 
-.product-detail__title {
+/* .product-detail__title {
     margin: 0 0 12px 0;
-}
-
+} */
+/* 
 .product-detail__price {
     display: block;
     margin: 0 0 10px 0;
     color: #777777;
-}
+} */
 
-.product-detail__option-color,
+/* .product-detail__option-color,
 .product-detail__option-size {
     display: flex;
     gap: 8px;
     border: none;
     padding: 0;
     margin: 0 0 16px 0;
-}
+} */
 
-.product-detail__legend,
+/* .product-detail__legend,
 .product-detail__availability {
     margin: 0 0 12px 0;
-}
+} */
 
-.product-detail__size-label-inner {
+/* .product-detail__size-label-inner {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 8px;
     width: 100%;
-}
+} */
 
-.product-detail__btn {
+/* .product-detail__btn {
     margin: 0 0 32px 0;
     position: relative;
-}
+} */
 
-.product-detail__btn:disabled {
+/* .product-detail__btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
+} */
 
 .product-detail__btn:disabled::after {
     content: "Please select a size";
@@ -138,29 +139,29 @@
     opacity: 1;
 }
 
-.product-detail__btn {
+/* .product-detail__btn {
     background-color: #000000;
     color: #ffffff;
     border: none;
     padding: 16px;
     width: 100%;
     border-radius: 8px;
-}
+} */
 
 .product-detail__btn:hover {
     background-color: #737373;
     cursor: pointer;
 }
 
-.product-detail__btn:disabled {
+/* .product-detail__btn:disabled {
     background-color: #CACACB;
     cursor: auto;
-}
+} */
 
-.product-detail__description {
+/* .product-detail__description {
     margin: 0;
     color: #777777;
-}
+} */
 
 .custom-radio {
     cursor: pointer;

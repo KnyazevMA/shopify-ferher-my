@@ -4,17 +4,39 @@
 
 <div class="page-width">
   <section class="product-detail" data-product-id="{{ product.id }}">
-    <div class="product-detail__wrapper">
-      <div class="product-detail__inner-left">
-        <div class="product-detail__wrapper-big-img">
+    <div
+      class="
+        product-detail__wrapper
+        tw:grid tw:grid-cols-2 tw:gap-16
+      "
+    >
+      <div
+        class="
+          product-detail__inner-left
+          tw:flex tw:flex-row-reverse tw:gap-6 tw:max-h-536px
+        "
+      >
+        <div
+          class="
+            product-detail__wrapper-big-img
+            tw:relative tw:aspect-square tw:max-w-full tw:h-auto tw:max-h-536px tw:rounded-lg tw:overflow-hidden
+          "
+        >
           {% if product.featured_image != blank %}
-            {{ product.featured_image | image_url: width: 536 | image_tag: alt: product.title }}
+            {{
+              product.featured_image
+              | image_url: width: 536
+              | image_tag: alt: product.title, class: 'tw:w-full tw:h-full tw:object-cover'
+            }}
           {% else %}
             {{ 'image' | placeholder_svg_tag: 'product-detail__placeholder' }}
           {% endif %}
         </div>
         {% if section.settings.show_thumbnails %}
-          <div class="product-detail__wrapper-btn-img" data-thumbs>
+          <div
+            class="product-detail__wrapper-btn-img"
+            data-thumbs
+          >
             {% assign color_names = product.metafields.custom.color_product.value | map: 'name' %}
             {% for color in color_names %}
               {% assign variants_for_color = product.variants | where: 'option1', color %}
@@ -23,7 +45,10 @@
               {% endif %}
               {% if variants_for_color.size > 0 %}
                 <div
-                  class="product-detail__thumb-group"
+                  class="
+                    product-detail__thumb-group
+                    tw:flex tw:flex-col tw:justify-between tw:gap-6
+                  "
                   data-color="{{ color | downcase }}"
                   {% unless forloop.first %}
                     style="display:none"
@@ -32,7 +57,15 @@
                   {% for variant in variants_for_color limit: 5 %}
                     {% if variant.featured_image %}
                       <button
-                        class="product-detail__btn-img {% if forloop.first %}product-detail__btn-img--active{% endif %}"
+                        class="
+                          product-detail__btn-img {% if forloop.first %}product-detail__btn-img--active{% endif %}
+                          tw:p-0 tw:w-88 tw:h-88 tw:bg-transparent
+                          tw:border tw:border-transparent tw:rounded-lg
+                          tw:cursor-pointer tw:overflow-hidden tw:relative tw:flex-none
+                          tw:outline-none tw:hover:border-gray-500 tw:focus-visible:border-gray-500
+                          tw:after:content-[''] tw:after:block tw:after:absolute tw:after:inset-0 tw:after:bg-black tw:after:opacity-0 tw:after:z-10 tw:after:pointer-events-none
+                          tw:![&.product-detail__btn-img--active]:after:opacity-30
+                        "
                         type="button"
                         data-large="{{ variant.featured_image | image_url: width: 800 }}"
                       >
@@ -47,8 +80,8 @@
         {% endif %}
       </div>
       <div class="product-detail__inner-right">
-        <h2 class="product-detail__title">{{ product.title | default: 'Product title placeholder' }}</h2>
-        <p class="product-detail__price">
+        <h2 class="product-detail__title tw:mb-3">{{ product.title | default: 'Product title placeholder' }}</h2>
+        <p class="product-detail__price tw:block tw:mb-2.5 tw:text-gray-500">
           {% if product.compare_at_price > product.price %}
             <span class="product-detail__price--sale">{{ product.price | money }}</span>
             <span class="product-detail__price--old">{{- product.compare_at_price | money -}}</span>
@@ -56,11 +89,11 @@
             <span>{{ product.price | money | default: '$100.00' }}</span>
           {% endif %}
         </p>
-        <span class="product-detail__availability" id="variant-availability"> </span>
+        <span class="product-detail__availability tw:mb-3" id="variant-availability"> </span>
         {% assign product_colors = product.metafields.custom.color_product.value %}
         {% if product_colors %}
-          <fieldset class="product-detail__option-color">
-            <legend class="product-detail__legend">{{ section.settings.color_text_title }}</legend>
+          <fieldset class="product-detail__option-color tw:flex tw:gap-2 tw:border-0 tw:p-0 tw:mb-4">
+            <legend class="product-detail__legend tw:mb-3">{{ section.settings.color_text_title }}</legend>
             {% for color_entry in product_colors %}
               {% assign matched_variant = product.variants | where: 'option1', color_entry.name | first %}
               {% if matched_variant == null %}
@@ -88,7 +121,7 @@
           </fieldset>
         {% else %}
           <fieldset class="product-detail__option-color">
-            <legend class="product-detail__legend">{{ section.settings.color_text_title }}</legend>
+            <legend class="product-detail__legend tw:mb-3">{{ section.settings.color_text_title }}</legend>
             {% assign placeholder_colors = 'Red,Green,Blue' | split: ',' %}
             {% for color in placeholder_colors %}
               <label class="custom-radio">
@@ -103,9 +136,9 @@
         {% endif %}
         {% assign product_sizes = product.metafields.custom.sizes.value %}
         {% if product_sizes %}
-          <fieldset class="product-detail__option-size">
-            <legend class="product-detail__legend">{{ section.settings.size_text_title }}</legend>
-            <div class="product-detail__size-label-inner">
+          <fieldset class="product-detail__option-size tw:flex tw:gap-2 tw:border-0 tw:p-0 tw:mb-4">
+            <legend class="product-detail__legend tw:mb-3">{{ section.settings.size_text_title }}</legend>
+            <div class="product-detail__size-label-inner tw:grid tw:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] tw:gap-2 tw:w-full">
               {% for size in product_sizes %}
                 {% assign matched_variant = product.variants | where: 'option2', size.name | first %}
                 {% if matched_variant == null %}
@@ -130,8 +163,8 @@
           </fieldset>
         {% else %}
           <fieldset class="product-detail__option-size">
-            <legend class="product-detail__legend">{{ section.settings.size_text_title }}</legend>
-            <div class="product-detail__size-label-inner">
+            <legend class="product-detail__legend tw:mb-3">{{ section.settings.size_text_title }}</legend>
+            <div class="product-detail__size-label-inner tw:grid tw:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] tw:gap-2 tw:w-full">
               {% assign placeholder_size = 'S,M,L' | split: ',' %}
               {% for size in placeholder_size %}
                 <label class="custom-radio">
@@ -142,10 +175,16 @@
             </div>
           </fieldset>
         {% endif %}
-        <button class="product-detail__btn" type="submit">
+        <button
+          class="
+            product-detail__btn tw:mb-8 tw:relative tw:bg-black tw:text-white tw:border-none tw:p-4 tw:w-full tw:rounded-lg
+            tw:disabled:opacity-50 tw:disabled:bg-CACACB tw:disabled:cursor-auto tw:hover:bg-737373 tw:hover:cursor-pointer
+          "
+          type="submit"
+        >
           {{ 'products.product.add_to_cart' | t: default: 'Add to cart' }}
         </button>
-        <p class="product-detail__description">
+        <p class="product-detail__description tw:m-0 tw:text-777777">
           {{
             product.description
             | strip_html

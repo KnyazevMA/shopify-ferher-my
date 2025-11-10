@@ -1,1 +1,9 @@
 @import "tailwindcss" prefix(tw);
+
+@theme {
+    --max-h-536: 536px;
+    --spacing-88: 88px;
+    --bg-CACACB: #CACACB;
+    --bg-737373: #737373;
+    --text-777777: #777777;
+}
