@@ -7,13 +7,16 @@
     <div
       class="
         product-detail__wrapper
-        tw:grid tw:grid-cols-2 tw:gap-16
+        tw:grid tw:grid-cols-1 tw:gap-6
+        tw:lg:grid-cols-2 tw:lg:gap-12 tw:md:justify-items-center
+        tw:lg:justify-items-normal
       "
     >
       <div
         class="
           product-detail__inner-left
-          tw:flex tw:flex-row-reverse tw:gap-6 tw:max-h-536px
+          tw:flex tw:flex-col tw:gap-6 tw:max-h-536px
+          tw:sm:flex-row-reverse
         "
       >
         <div
@@ -47,7 +50,8 @@
                 <div
                   class="
                     product-detail__thumb-group
-                    tw:flex tw:flex-col tw:justify-between tw:gap-6
+                    tw:flex tw:flex-row tw:justify-between tw:gap-6 tw:overflow-x-auto tw:whitespace-nowrap
+                    tw:sm:flex-col
                   "
                   data-color="{{ color | downcase }}"
                   {% unless forloop.first %}
@@ -63,7 +67,9 @@
                           tw:border tw:border-transparent tw:rounded-lg
                           tw:cursor-pointer tw:overflow-hidden tw:relative tw:flex-none
                           tw:outline-none tw:hover:border-gray-500 tw:focus-visible:border-gray-500
-                          tw:after:content-[''] tw:after:block tw:after:absolute tw:after:inset-0 tw:after:bg-black tw:after:opacity-0 tw:after:z-10 tw:after:pointer-events-none
+                          tw:after:content-[''] tw:after:block tw:after:absolute tw:after:inset-0 tw:after:bg-black
+                          tw:after:pointer-events-none
+                          tw:after:opacity-0
                           tw:![&.product-detail__btn-img--active]:after:opacity-30
                         "
                         type="button"
@@ -99,9 +105,17 @@
               {% if matched_variant == null %}
                 {% assign matched_variant = product.variants | where: 'option2', color_entry.name | first %}
               {% endif %}
-              <label class="custom-radio">
+              <label
+                class="
+                  custom-radio tw:cursor-pointer
+                  tw:[&>input:focus-visible+span]:border-gray-500
+                  tw:[&>input:focus-visible+span]:opacity-90
+                  tw:[&>input:hover+span]:border-gray-500
+                  tw:[&>input:hover+span]:opacity-80
+                "
+              >
                 <input
-                  class="custom-radio__field"
+                  class="custom-radio__field tw:peer tw:absolute tw:opacity-0 tw:w-0 tw:h-0 tw:pointer-events-none"
                   type="radio"
                   name="color"
                   value="{{ color_entry.name | downcase }}"
@@ -113,7 +127,11 @@
                   {% endif %}
                 >
                 <span
-                  class="custom-radio__visual custom-radio__visual--color"
+                  class="
+                    custom-radio__visual tw:flex tw:flex-wrap tw:justify-center tw:content-center tw:p-8
+                    tw:peer-focus-visible:border-black tw:peer-hover:border-black tw:peer-checked:border-777777 tw:peer-checked:opacity-80
+                     tw:rounded-full tw:border tw:border-CCCCCC
+                  "
                   style="background-color: {{ color_entry.color }};"
                 ></span>
               </label>
@@ -124,10 +142,18 @@
             <legend class="product-detail__legend tw:mb-3">{{ section.settings.color_text_title }}</legend>
             {% assign placeholder_colors = 'Red,Green,Blue' | split: ',' %}
             {% for color in placeholder_colors %}
-              <label class="custom-radio">
-                <input type="radio" name="color" disabled>
+              <label class="custom-radio tw:cursor-pointer">
+                <input
+                  class="custom-radio__field tw:peer tw:absolute tw:opacity-0 tw:w-0 tw:h-0 tw:pointer-events-none"
+                  type="radio"
+                  name="color"
+                  disabled
+                >
                 <span
-                  class="custom-radio__visual custom-radio__visual--color"
+                  class="
+                    custom-radio__visual custom-radio__visual--color tw:flex tw:flex-wrap tw:justify-center tw:content-center tw:border tw:border-CCCCCC tw:rounded-full tw:p-8
+                    tw:peer-focus-visible:border-black tw:peer-hover:border-black tw:peer-checked:border-black
+                  "
                   style="background-color: {{ color | downcase }}"
                 ></span>
               </label>
@@ -144,9 +170,9 @@
                 {% if matched_variant == null %}
                   {% assign matched_variant = product.variants | where: 'option1', size.name | first %}
                 {% endif %}
-                <label class="custom-radio">
+                <label class="custom-radio tw:cursor-pointer">
                   <input
-                    class="custom-radio__field"
+                    class="custom-radio__field tw:peer tw:absolute tw:opacity-0 tw:w-0 tw:h-0 tw:pointer-events-none"
                     type="radio"
                     name="size"
                     value="{{ size.name }}"
@@ -156,7 +182,14 @@
                       checked
                     {% endif %}
                   >
-                  <span class="custom-radio__visual">{{ size.name }}</span>
+                  <span
+                    class="
+                      custom-radio__visual tw:flex tw:flex-wrap tw:justify-center tw:content-center tw:border tw:border-CCCCCC tw:rounded-lg tw:p-4
+                      tw:peer-focus-visible:border-black tw:peer-hover:border-black tw:peer-checked:border-black
+                    "
+                  >
+                    {{- size.name -}}
+                  </span>
                 </label>
               {% endfor %}
             </div>
@@ -167,9 +200,21 @@
             <div class="product-detail__size-label-inner tw:grid tw:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] tw:gap-2 tw:w-full">
               {% assign placeholder_size = 'S,M,L' | split: ',' %}
               {% for size in placeholder_size %}
-                <label class="custom-radio">
-                  <input type="radio" name="size" disabled>
-                  <span class="custom-radio__visual">{{ size }}</span>
+                <label class="custom-radio tw:cursor-pointer">
+                  <input
+                    class="custom-radio__field tw:peer tw:absolute tw:opacity-0 tw:w-0 tw:h-0 tw:pointer-events-none"
+                    type="radio"
+                    name="size"
+                    disabled
+                  >
+                  <span
+                    class="
+                      custom-radio__visual tw:flex tw:flex-wrap tw:justify-center tw:content-center tw:border tw:border-CCCCCC tw:rounded-lg tw:p-4
+                      tw:peer-focus-visible:border-black tw:peer-hover:border-black tw:peer-checked:border-black
+                    "
+                  >
+                    {{- size -}}
+                  </span>
                 </label>
               {% endfor %}
             </div>
@@ -177,8 +222,10 @@
         {% endif %}
         <button
           class="
-            product-detail__btn tw:mb-8 tw:relative tw:bg-black tw:text-white tw:border-none tw:p-4 tw:w-full tw:rounded-lg
-            tw:disabled:opacity-50 tw:disabled:bg-CACACB tw:disabled:cursor-auto tw:hover:bg-737373 tw:hover:cursor-pointer
+            product-detail__btn tw:mb-8 tw:relative
+            tw:bg-black tw:text-white tw:border-none tw:p-4 tw:w-full tw:rounded-lg
+            tw:hover:bg-737373 tw:hover:cursor-pointer
+            tw:disabled:opacity-50 tw:disabled:bg-CACACB tw:disabled:cursor-auto tw:disabled:pointer-events-none
           "
           type="submit"
         >
