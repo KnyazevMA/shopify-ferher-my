@@ -1,0 +1,13 @@
+@import "tailwindcss" prefix(tw);
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --max-h-536: 536px;
+    --spacing-88: 88px;
+    --bg-CACACB: #CACACB;
+    --color-777777: #777777;
+    --color-737373: #737373;
+    --color-CCCCCC: #CCCCCC;
+    --gap-60: 60px;
+}
