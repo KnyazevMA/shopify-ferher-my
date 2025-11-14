@@ -111,10 +111,21 @@
         "padding_top": 0,
         "padding_bottom": 36
       }
+    },
+    "custom_product_detail_zRCfHa": {
+      "type": "custom-product-detail",
+      "name": "Product Detail",
+      "settings": {
+        "product": "nike-air-max-plus",
+        "show_thumbnails": true,
+        "color_text_title": "Choose color:",
+        "size_text_title": "Choose size:"
+      }
     }
   },
   "order": [
     "slideshow_t8kc6X",
-    "featured_collection"
+    "featured_collection",
+    "custom_product_detail_zRCfHa"
   ]
 }
